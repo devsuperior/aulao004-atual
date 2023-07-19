@@ -1,17 +1,19 @@
 package entities;
 
-import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import entities.enums.OrderStatus;
 
 public class Order {
 
-	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 	
-	private Date moment;
+	private Instant moment;
 	private OrderStatus status;
 	
 	private Client client;
@@ -21,18 +23,18 @@ public class Order {
 	public Order() {
 	}
 
-	public Order(Date moment, OrderStatus status, Client client) {
+	public Order(Instant moment, OrderStatus status, Client client) {
 		super();
 		this.moment = moment;
 		this.status = status;
 		this.client = client;
 	}
 
-	public Date getMoment() {
+	public Instant getMoment() {
 		return moment;
 	}
 
-	public void setMoment(Date moment) {
+	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
 
@@ -70,9 +72,12 @@ public class Order {
 	
 	@Override
 	public String toString() {
+		
+		LocalDateTime dt = LocalDateTime.ofInstant(moment, ZoneId.systemDefault());
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("Order moment: ");
-		sb.append(sdf.format(moment) + "\n");
+		sb.append(dt.format(formatter) + "\n");
 		sb.append("Order status: ");
 		sb.append(status + "\n");
 		sb.append("Client: ");

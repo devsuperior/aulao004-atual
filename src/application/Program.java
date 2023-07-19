@@ -1,8 +1,9 @@
 package application;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class Program {
 
 	public static void main(String args[]) throws ParseException {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
@@ -27,7 +28,7 @@ public class Program {
 		System.out.print("Email: ");
 		String email = sc.next();
 		System.out.print("Birth date (DD/MM/YYYY): ");
-		Date birthDate = sdf.parse(sc.next());
+		LocalDate birthDate = LocalDate.parse(sc.next(), formatter);
 		
 		Client client = new Client(name, email, birthDate);
 		
@@ -35,7 +36,7 @@ public class Program {
 		System.out.print("Status: ");
 		OrderStatus status = OrderStatus.valueOf(sc.next());
 		
-		Order order = new Order(new Date(), status, client);
+		Order order = new Order(Instant.now(), status, client);
 		
 		System.out.print("How many items to this order? ");
 		int N = sc.nextInt();
